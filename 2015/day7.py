@@ -71,4 +71,6 @@ for instruction in instructions:
   command, args, destination = parse_instruction(instruction)
   wires[destination] = {"command": command, "args": args}
 
+
+wires["b"] = 46065
 print(calculateWire("a"))
