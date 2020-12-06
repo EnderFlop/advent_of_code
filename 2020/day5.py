@@ -34,3 +34,4 @@ for direction in directions:
   #print(final_row, final_col, seat_id)
   seats_list.remove(seat_id)
 print(seats_list)
+#Answer is 552
