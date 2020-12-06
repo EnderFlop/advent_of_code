@@ -9,7 +9,6 @@ groups = text.split("\n\n")
 total_answers = 0
 for group in groups:
   person_list = group.split("\n")
-  print(len(person_list))
   answer_list = {}
   for person in person_list:
     for char in person:
@@ -17,8 +16,7 @@ for group in groups:
         answer_list[char] = 1
       else:
         answer_list[char] += 1
-  for value in answer_list.values():
-    
+  for value in answer_list.values(): 
     if value == len(person_list):
       total_answers += 1
 
