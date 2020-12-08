@@ -24,7 +24,7 @@ for rule in text:
 
 def bag_search(string):
   #print(f"searching {string}")
-  if string == "shiny gold":
+  if "shiny gold" in rules_dict[string]:
     #print(f"\n{string} is shiny gold")
     return True
   elif rules_dict[string] == {}: #If the dictionary is empty, return false
@@ -39,5 +39,3 @@ for key in rules_dict.keys():
   if bag_search(key):
     gold_count += 1
 print(gold_count)
-
-#Not 180, answer too high
