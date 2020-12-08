@@ -13,29 +13,29 @@ for rule in text:
   bag = bag.join(split[:2])
   contains = re.findall(r"\d\s\w+\s\w+", rule)
   if split[4] == "no":
-    #Add a dictionary or something idk
     rules_dict[bag] = {}
   for container in contains:
-    number = container[0]
+    number = int(container[0])
     container = container[2:]
     rules_dict.setdefault(bag, {})[container] = number
 
-#If container not in rules_dict, add it as an empty dictionary.
-
 def bag_search(string):
-  #print(f"searching {string}")
-  if "shiny gold" in rules_dict[string]:
-    #print(f"\n{string} is shiny gold")
-    return True
-  elif rules_dict[string] == {}: #If the dictionary is empty, return false
-    return False
-  for bag in rules_dict[string].keys():
-    if bag_search(bag):
-      return True
+  bags = rules_dict[string] #Dict of all bags in current bag
+  count = 0 #init count
+  if bags == {}: #If empty, return 0 because no bags are in it
+      print(f"{string} empty, returning 0")
+      return 0
+  print(f"bags = {bags}")
+  for bag in bags: #For each bag
+    print(f"adding {rules_dict[string][bag]}")
+    count += rules_dict[string][bag] #Add the initial amount of the bags
+    print(f"going into {bag}")
+    count += rules_dict[string][bag] * bag_search(bag) #Add the amount of bags (the coefficient) * the amount of bags inside the bag to the count
+  return count #return a count of all the bags inside the current bag
 
-gold_count = 0
-for key in rules_dict.keys():
-  print(f"\nsearching {key}")
-  if bag_search(key):
-    gold_count += 1
-print(gold_count)
+print("\n\n\n\n\n")
+print(bag_search("shiny gold"))
+
+#not 4444444444, too high
+#not 8140, too low
+#18925!!
