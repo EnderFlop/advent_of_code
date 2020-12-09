@@ -69,4 +69,3 @@ for index in range(len(instructions)):
 
 visited = reset_visited()
 print(accumulate(0))
-#Index 19 needs to be turned from jmp to nop
