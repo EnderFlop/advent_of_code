@@ -1,4 +1,3 @@
-
 input = open("2020/day9.txt").read().splitlines()
 
 for i in range(len(input)):
