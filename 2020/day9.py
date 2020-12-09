@@ -6,21 +6,27 @@ with open("2020/day9.txt") as text_file:
 input = text.split("\n")
 for i in range(len(input)):
   input[i] = int(input[i])
-preamble = input[:25]
-input = input[25:]
 
 def test(number):
-  for int_1 in preamble:
-    for int_2 in preamble:
-      #print(f"testing for {number}, {int_1} + {int_2} ({int_1 + int_2})")
-      if int_1 + int_2 == number and int_1 != int_2:
-        preamble.pop(0)
-        preamble.append(number)
-        return True
-  return False
+  starting_index = input.index(number)
+  list = [number]
+  search = 167829540
+  for number in input[starting_index+1:]:
+    #print(list)
+    list.append(number)
+    added = sum(list)
+    if added < search:
+      continue
+    if added == search:
+      print(min(list) + max(list))
+      return True
+    if added > search:
+      return False
+
 
 for number in input:
-  if not test(number):
-    print(number)
+  if test(number):
     break
-  
+
+
+#INVALID NUM = 167829540
