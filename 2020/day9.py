@@ -1,11 +1,9 @@
-import re
 
-with open("2020/day9.txt") as text_file:
-  input = text_file.read().splitlines()
+input = open("2020/day9.txt").read().splitlines()
 
 for i in range(len(input)):
   input[i] = int(input[i])
-  
+
 def test(number):
   starting_index = input.index(number)
   list = [number]
