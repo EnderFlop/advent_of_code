@@ -19,7 +19,7 @@ def meets_reqs(string):
     return False
   in_a_row = 0
   groups = itertools.groupby(string)
-  for k, g in groups:
+  for _, g in groups:
     if len(list(g)) == 2:
       in_a_row += 1
   if in_a_row == 2:
