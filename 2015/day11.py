@@ -1,7 +1,11 @@
 import re
 import itertools
 
-input = "hxbxwxba"
+input = "hxbxxyzz"
+#PART 1 INPUT ="hxbxwxba"
+#PART 1 ANSWER = "hxbxxyzz"
+#PART 2 INPUT = PART 1 INPUT ONCE THROUGH, "hxbxxyzz"
+#PART 2 ANSWER = "hxcaabcc"
 
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'] #No I, O, L
 
