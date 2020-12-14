@@ -13,7 +13,7 @@ def step(text, seats): #Begin with a string of seats and floor
     row = lines[row_index]
 
     for seat_index in range(len(row)): #Seat index = current seat
-      seat_number = seat_index + len(row) * row_index #Get the seat index in all of the text
+      #seat_number = seat_index + len(row) * row_index #Equation to find the seat index in the line of all seats
       seat = row[seat_index] #Find the actual value of that seat
 
       slopes = [(-1, -1), (0,-1), (1,-1), (-1,0), (1,0), (-1,1), (0,1), (1,1)] #The slopes to check
