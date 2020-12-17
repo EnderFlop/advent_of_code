@@ -31,7 +31,7 @@ def read_number(last_number, turn):
 def read_starters(turn):
   said_dict[input[turn-1]] = [turn, 0]
 
-for turn in range(2020):
+for turn in range(30000000):
   turn = turn+1
   if turn <= len(input): #For the first x numbers, read that number
     read_starters(turn)
@@ -41,3 +41,4 @@ for turn in range(2020):
 print(last_number)
 
 #PART 1: 496 FIRST TRY
+#PART 2: 883 FIRST TRY
