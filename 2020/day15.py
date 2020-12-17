@@ -1,5 +1,6 @@
 import re
 import itertools
+import time
 from rich.traceback import install
 from rich.console import Console
 install()
@@ -31,7 +32,7 @@ def read_number(last_number, turn):
 def read_starters(turn):
   said_dict[input[turn-1]] = [turn, 0]
 
-
+start_time = time.time()
 turn_count = 30000000
 console.log(f"STARTING. SIMULATING {turn_count} TURNS.")
 for turn in range(turn_count):
@@ -42,6 +43,7 @@ for turn in range(turn_count):
   else: #Otherwise, read the last read number
     last_number = read_number(last_number, turn) 
 console.log(last_number)
+console.log(f"IT TOOK {time.time() - start_time} SECONDS")
 
 #PART 1: 496 FIRST TRY
 #PART 2: 883 FIRST TRY
