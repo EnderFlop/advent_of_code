@@ -31,14 +31,20 @@ def read_number(last_number, turn):
 def read_starters(turn):
   said_dict[input[turn-1]] = [turn, 0]
 
-for turn in range(30000000):
+
+turn_count = 30000000
+console.log(f"STARTING. SIMULATING {turn_count} TURNS.")
+for turn in range(turn_count):
   turn = turn+1
   if turn <= len(input): #For the first x numbers, read that number
     read_starters(turn)
     last_number = input[turn-1]
   else: #Otherwise, read the last read number
     last_number = read_number(last_number, turn) 
-print(last_number)
+console.log(last_number)
 
 #PART 1: 496 FIRST TRY
 #PART 2: 883 FIRST TRY
+#Ran part 2 in 52 seconds! I think this is O(n) but I'm not sure.
+#Obviously the input is the number of turns, and it iterates through those one at a time
+#but the length of the input is never used in any of the functions. I'm confident this is O(n)
