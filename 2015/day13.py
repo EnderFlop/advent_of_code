@@ -22,6 +22,11 @@ for line in text:
     happiness_dict[name] = {partner: happiness}
 
 print(happiness_dict)
+happiness_dict["You"] = {}
+for k in happiness_dict.keys():
+  happiness_dict[k]["You"] = 0
+  happiness_dict["You"][k] = 0
+
 possible_seats = itertools.permutations(happiness_dict.keys())
 max_happiness = float("-inf")
 
@@ -45,3 +50,5 @@ print(max_happiness)
 #instead of altering the dict after I make it programattically to include "you"
 #I just fucked with the input and added "you" to everyone lmaoooo
 #640 first try.
+
+#Added the intended way of actually solving part 2 lol
