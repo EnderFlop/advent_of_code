@@ -20,7 +20,8 @@ for line in text:
     happiness_dict[name][partner] = happiness
   else:
     happiness_dict[name] = {partner: happiness}
-  
+
+print(happiness_dict)
 possible_seats = itertools.permutations(happiness_dict.keys())
 max_happiness = float("-inf")
 
@@ -38,3 +39,9 @@ for table in possible_seats:
 print(max_happiness)    
 
 #Not 58 cause i fucked up the permutations
+#Fixed permutations 664 second try
+
+#lmao i did something you should not of done but works perfectly with small inputs
+#instead of altering the dict after I make it programattically to include "you"
+#I just fucked with the input and added "you" to everyone lmaoooo
+#640 first try.
