@@ -47,7 +47,7 @@ def construct_rule(rule_number):
   else:
     returned_strings = []
     for related in related_rules: #Construct the rules
-      returned_strings.append(construct_rule(related))
+      returned_strings.append(construct_rule(related)) 
     print(returned_strings)
     if len(returned_strings) == 2:
       return distribute_list(returned_strings[0], returned_strings[1])
