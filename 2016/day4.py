@@ -6,12 +6,11 @@ import string
 
 instructions = open("2016/day4.txt").read().splitlines()
 
-sector_id_sum = 0
 alphabet = string.ascii_lowercase
+valid_strings = []
 
 for text in instructions:
-  checksum = re.search("\[.+\]", text)
-  checksum = checksum.group()[1:-1]
+  checksum = text[-6:-1]
   letter_dict = {k:0 for k in alphabet}
   sector_id = text[-10:-7]
   for letter in text[:-10]:
@@ -55,7 +54,27 @@ for text in instructions:
       valid_string = False
     index += 1
   if valid_string == True:
-    sector_id_sum += int(sector_id)
+    valid_strings.append(text[:-7])
 
-print(sector_id_sum)
 #part1 248142 too high. 245102 right! second try.
+
+#Part 2. Decrypting the valid strings.
+decrypted = []
+for string in valid_strings:
+  new_string = ""
+  sector_id = string[-3:]
+  string = string[:-4]
+  for letter in string:
+    if letter == "-":
+      new_string += " "
+    else:
+      current_index = alphabet.index(letter)
+      new_index = (current_index + int(sector_id)) % 26
+      new_string += alphabet[new_index]
+  decrypted.append((new_string, sector_id))
+
+for i in decrypted:
+  if "north" in i[0]:
+    print(f"{i}\n")
+
+#part2 324, first try.
