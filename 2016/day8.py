@@ -7,7 +7,7 @@ instructions = open("2016/day8.txt").read().splitlines()
 
 array_x = 50
 array_y = 6
-lcd = np.full((array_y,array_x), 0)
+lcd = np.full((array_y,array_x), ".")
 
 for transform in instructions:
   command = transform.split()[0]
@@ -17,7 +17,7 @@ for transform in instructions:
     y_tall = int(coords[1])
     for x in range(x_wide):
       for y in range(y_tall):
-        lcd[y][x] = 1
+        lcd[y][x] = "#"
   
   elif command == "rotate":
     row_or_column = transform.split()[1]
@@ -30,5 +30,14 @@ for transform in instructions:
       shift_factor = int(transform.split()[4])
       lcd[:,column_index] = np.roll(lcd[:,column_index], shift_factor)
 
-print(np.count_nonzero(lcd))
-#part1 119 first try! even identified a bug before it became a problem, with integers being longer than one character. Extracting information from english commands sucks 
+#part1 119 first try! even identified a bug before it became a problem, with integers being longer than one character. Extracting information from english commands sucks
+
+#print the first five columns . print a new line.
+lcd = np.rot90(lcd)
+lcd = np.rot90(lcd)
+lcd = np.rot90(lcd)
+print(lcd)
+
+#part2 ZFHFSFOGPO! just had to rotate the array a few times and turn my head. Definetly not the best way to do it, put a more creative one I guess
+#I experimented with printing out certain columns but then the display was still sideways. Maybe if I had rotated the individual columns before I printed them?
+#Maybe a test for another time, I have to go put up a christmas tree
