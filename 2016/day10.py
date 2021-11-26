@@ -25,9 +25,6 @@ class Bot():
     self.command = ""
   
   def recieve_value(self, value):
-    if self.get_high() != None and self.get_low() != None:
-      print("COLLISION!")
-      print(f"{self.get_id()} tried to recieve {value} but already had two. high:{self.get_high()} low:{self.get_low()}")
     if self.get_high() == None:
       self.set_high(value)
     elif self.get_low() == None:
@@ -120,8 +117,12 @@ while valid_bots:
   #print([f"bot{k}: {v.get_low()}, {v.get_high()}" for k,v in bots_list.items()])
   valid_bots = [bot for bot in bots_list.values() if bot.has_both_microchips()]
   random.shuffle(valid_bots)
-  print([bot.id for bot in valid_bots])
+  #print([bot.id for bot in valid_bots])
   for bot in valid_bots:
+    if bot.get_low() == 17 or bot.get_high() == 17:
+      print(f"{bot.id} currently has 17")
+    if bot.get_low() == 61 or bot.get_high() == 61:
+      print(f"{bot.id} currently has 61")
     if bot.check_answer():
       print(f"WE FOUND IT! BOT {bot.id}. MICROCHIPS {bot.get_low()} & {bot.get_high()}")
     bot.execute_command()
