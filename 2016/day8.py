@@ -45,3 +45,4 @@ lcd = np.split(lcd, 10, axis=1)
 for letter in lcd:
   print(letter)
   print("\n")
+#went back and made a cleaner way of doing it. learned how to use np.split too!
