@@ -33,11 +33,15 @@ for transform in instructions:
 #part1 119 first try! even identified a bug before it became a problem, with integers being longer than one character. Extracting information from english commands sucks
 
 #print the first five columns . print a new line.
-lcd = np.rot90(lcd)
-lcd = np.rot90(lcd)
-lcd = np.rot90(lcd)
-print(lcd)
+#lcd = np.rot90(lcd)
+#lcd = np.rot90(lcd)
+#lcd = np.rot90(lcd)
+#print(lcd)
 
 #part2 ZFHFSFOGPO! just had to rotate the array a few times and turn my head. Definetly not the best way to do it, put a more creative one I guess
 #I experimented with printing out certain columns but then the display was still sideways. Maybe if I had rotated the individual columns before I printed them?
 #Maybe a test for another time, I have to go put up a christmas tree
+lcd = np.split(lcd, 10, axis=1)
+for letter in lcd:
+  print(letter)
+  print("\n")
