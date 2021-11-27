@@ -14,6 +14,9 @@ class Output():
   def receive_value(self, value):
     self.value = value
   
+  def get_value(self):
+    return self.value
+  
   def get_id(self):
     return self.get_id
 
@@ -144,7 +147,11 @@ while valid_bots:
       print(f"WE FOUND IT! BOT {bot.id}. MICROCHIPS {bot.get_low()} & {bot.get_high()}")
     bot.execute_command()
 
+print(output_list[0].get_value() * output_list[1].get_value() * output_list[2].get_value())
+
 #first try bot 119. too high.
 #Maybe run the bot's program the second that it gets two microchips instead of waiting around? Tried that, ran into no answer (even without the random shuffle).
 # 118 is also too high. Just seeing if the bots weren't zero indexed or something stupid lol
 #73, part1, needed some reddit help! my receive value function was off, low and high were getting unordered. reworked it with descriptive comments, works great.
+
+#3965, first try part2 real easy.
