@@ -11,7 +11,7 @@ class Output():
     self.id = id
     self.value = None
 
-  def recieve_value(self, value):
+  def receive_value(self, value):
     self.value = value
   
   def get_id(self):
@@ -24,24 +24,41 @@ class Bot():
     self.high = high
     self.command = ""
   
-  def recieve_value(self, value):
-    if self.get_high() == None:
+  def receive_value(self, value):
+    high = self.get_high()
+    low = self.get_low()
+
+    #If both values are populated (will never happen)
+    if low is not None and high is not None:
+      print("Collision!")
+    #If neither value is populated, shove value in bot
+    if low is None and high is None:
       self.set_high(value)
-    elif self.get_low() == None:
-      self.set_low(value)
-    elif value > self.get_high():
-      self.set_low(self.get_high())
-      self.set_high(value)
-    elif value < self.get_low():
-      self.set_high(self.get_low())
-      self.set_low(value)
+    #If high is populated and low is not
+    if high is not None and low is None:
+      #if value is bigger than high, move values
+      if value > high:
+        self.set_low(high)
+        self.set_high(value)
+      #if value is lower, place in low
+      if value < high:
+        self.set_low(value)
+    #If low is populated and high is not
+    if high is None and low is not None:
+      #if value is smaller than low, move values
+      if value < low:
+        self.set_high(low)
+        self.set_low(value)
+      #if value is bigger, place in high
+      if value > low:
+        self.set_high(value)
   
   def give_value(self, low_or_high, reciever):
     if low_or_high == "low":
-      reciever.recieve_value(self.get_low())
+      reciever.receive_value(self.get_low())
       self.set_low(None)
     if low_or_high == "high":
-      reciever.recieve_value(self.get_high())
+      reciever.receive_value(self.get_high())
       self.set_high(None)
   
   def has_both_microchips(self):
@@ -104,9 +121,9 @@ for command in instructions:
   if words[0] == "value":
     value = int(words[1])
     bot_number = int(words[-1])
-    bots_list[bot_number].recieve_value(value)
+    bots_list[bot_number].receive_value(value)
 
-  elif words[0] == "bot":
+  if words[0] == "bot":
     giving_bot_id = int(words[1])
     giving_bot = bots_list[giving_bot_id]
     giving_bot.set_command(command)
@@ -128,3 +145,6 @@ while valid_bots:
     bot.execute_command()
 
 #first try bot 119. too high.
+#Maybe run the bot's program the second that it gets two microchips instead of waiting around? Tried that, ran into no answer (even without the random shuffle).
+# 118 is also too high. Just seeing if the bots weren't zero indexed or something stupid lol
+#73, part1, needed some reddit help! my receive value function was off, low and high were getting unordered. reworked it with descriptive comments, works great.
