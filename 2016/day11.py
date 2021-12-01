@@ -13,9 +13,9 @@ class Floor():
   
   def load(self, thing):
     if type(thing) == Microchip:
-      self.microchips += thing
+      self.microchips.append(thing)
     if type(thing) == Generator:
-      self.generators += thing
+      self.generators.append(thing)
   
   def unload(self, thing):
     if type(thing) == Microchip:
@@ -51,11 +51,11 @@ class Elevator():
     self.floor = floor
   
   def load(self, thing):
-    floors_list[self.floor + 1].unload(thing)
-    self.contents += thing
+    floors_list[self.floor - 1].unload(thing)
+    self.contents.append(thing)
   
   def unload(self, thing):
-    floors_list[self.floor + 1].load(thing)
+    floors_list[self.floor - 1].load(thing)
     self.contents.remove(thing)
   
   def danger_check(self): #Returns True if the items in the elevator interfere with eachother, False if there is no danger
@@ -108,23 +108,42 @@ l_mic = Microchip("Lithium")
 
 floors_list = [Floor(1, microchips=[h_mic, l_mic]),Floor(2, generators=[h_gen]),Floor(3, generators=[l_gen]),Floor(4)]
 
-floor5 = Floor(5, generators=[Generator("A"), Generator("C"), Generator("B")], microchips=[Microchip("B"), Microchip("A"), Microchip("D")])
-print(floor5.danger_check())
+#floor5 = Floor(5, generators=[Generator("A"), Generator("C"), Generator("B")], microchips=[Microchip("B"), Microchip("A"), Microchip("D")])
+#print(floor5.danger_check())
 
+elevator = Elevator()
 
 step_count = 0
 #while floors_list[3].amount() != 4: (while floor four doesn't have every item) 
 for i in range(5):
-  pass
+  current_floor_num = elevator.floor
+  floor = floors_list[current_floor_num - 1]
+  if len(elevator.contents) < 2: 
+    #for every chip, if it's generator is on another floor
+    for chip in floor.microchips:
+      for other_floor in floors_list:
+        if other_floor.floor_number > floor.floor_number and chip.element in [gen.element for gen in other_floor.generators] and len(elevator.contents) < 2:
+          print(f"floor {other_floor.floor_number} has the generator to {chip}")
+          elevator.load(chip)
+    for gen in floor.generators:
+      for other_floor in floors_list:
+        if other_floor.floor_number > floor.floor_number and gen.element in [chip.element for chip in other_floor.microchips] and len(elevator.contents) < 2:
+          #print(f"floor {other_floor.floor_number} has the microchip to {gen}")
+          elevator.load(gen)
+
+
 
 #RULES
 #Generator and Microchip of two different elements cant be on same floor (or elevator ride) unless microchip is attached to it's generator
 #Elevator can only carry two items, must carry at least one to move
 #get everything to floor four
 
-
 #While all generators and microchips arent on floor one
   #If nothing is in the elevator
     #pick up to two items (have to figure out logic here)
+    #check danger, if ok continue, if not choose two different items
+    #maybe check if the items can go up or down a level and be safe as well?
   #if something is in elevator
-    #if there 
+    #determine whether it needs to go up or down
+    #bring the item up or down
+    #unload the items (if it is safe to do so)
