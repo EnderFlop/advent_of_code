@@ -72,16 +72,19 @@ def run_game():
   for number in called_numbers:
     for board in boards_list:
       board.search_for_number(number)
-      if board.check_for_win():
-        print("game won!")
-        print(board)
-        return number * board.sum_unmarked_numbers()
+    #keep going until there is only one board that isn't true
+    winning_list = [board.check_for_win() for board in boards_list]
+    if winning_list.count(False) == 1:
+      print([index for index, board in enumerate(boards_list) if board.check_for_win() == False])
+      #board index 13
+    if boards_list[13].check_for_win():
+      return number * boards_list[13].sum_unmarked_numbers()
 
 print(run_game())
 
 #74981 too high. 33363 also too high.
-#only one board wins on number 97, and it does win. All other boards do not have winning combos.
-#This means either my system for making called number is wrong or my system for finding winning combos is wrong. I'll have to double check
-#works on example code
-#sum unmarked numbers and math to return winning number is CORRECT
+#part1 4662. I had to use someone elses answer to see a demonstration of my boards. 
+# My return statement was returning after the first column/row, and not scanning the others. Fixed it.
 
+#part2 4158 too low
+#answer had to be once the board did eventually win. Final answer 12080 second try
