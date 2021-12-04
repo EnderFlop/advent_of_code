@@ -20,10 +20,15 @@ class Board():
   
   def check_for_win(self):
     #scan all columns, rows (diagonals dont count!)
+    win = False
     for index in range(len(self.grid)):
       row = self.grid[index,:]
       column = self.grid[:,index]
-      return all(x.is_called() for x in row) or all(y.is_called() for y in column)
+      win = all(x.is_called() for x in row) or all(y.is_called() for y in column)
+      if win:
+        break
+    return win
+    
   
   def sum_unmarked_numbers(self):
     unmarked_sum = 0
@@ -69,8 +74,14 @@ def run_game():
       board.search_for_number(number)
       if board.check_for_win():
         print("game won!")
-        print([board.check_for_win() for board in boards_list])
+        print(board)
         return number * board.sum_unmarked_numbers()
 
 print(run_game())
-#74981 too high.
+
+#74981 too high. 33363 also too high.
+#only one board wins on number 97, and it does win. All other boards do not have winning combos.
+#This means either my system for making called number is wrong or my system for finding winning combos is wrong. I'll have to double check
+#works on example code
+#sum unmarked numbers and math to return winning number is CORRECT
+
