@@ -17,7 +17,7 @@ except NotADirectoryError:
 
 
 DAY = input("What day would you like to start? ")
-WRITES = f"import re\nimport itertools\nimport numpy as np\nimport time\n\ninstructions = open(\"{YEAR}/day{DAY}.txt\").read().splitlines()"
+WRITES = f"import re\nimport itertools\nimport numpy as np\nimport time\n\ninstructions = open(\"{YEAR}/day{DAY}testinput.txt\").read().splitlines()\n#instructions = open(\"{YEAR}/day{DAY}input.txt\").read().splitlines()"
 
 try:
   with open(f"day{DAY}.py", "x") as dayfile:
@@ -26,7 +26,13 @@ except FileExistsError:
   print(f"day{DAY} already exists!")
 
 try:
-  with open(f"day{DAY}.txt", "x") as inputfile:
+  with open(f"day{DAY}testinput.txt", "x") as inputfile:
+    pass
+except FileExistsError:
+  print(f"day{DAY} already exists!")
+
+try:
+  with open(f"day{DAY}input.txt", "x") as inputfile:
     pass
 except FileExistsError:
   print(f"day{DAY} already exists!")
