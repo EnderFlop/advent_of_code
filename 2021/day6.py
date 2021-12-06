@@ -39,7 +39,7 @@ for fish in lanternfish:
 
 print(fish_list)
 #run through days
-for i in range(80):
+for i in range(256):
   breeding_fish = 0
   for fish_chunk in fish_list:
     fish_chunk.tick()
@@ -51,3 +51,4 @@ for i in range(80):
 
 print(sum([group.count for group in fish_list]))
 #362740 part 1 first try! my optimization effort worked!
+#1644874076764 part2! they just wanted me to run it on more days lol. destroyed it!
