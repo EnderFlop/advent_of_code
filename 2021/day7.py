@@ -15,9 +15,12 @@ min_fuel_use = math.inf
 for i in range(min_position, max_position + 1):
   fuel_use = 0
   for crab in crabs:
-    fuel_use += abs(crab - i)
+    distance = abs(crab - i)
+    fuel_use += ((distance**2 + distance)/2)
   if min_fuel_use > fuel_use:
     min_fuel_use = fuel_use
 
 print(min_fuel_use)
 #342534 part1 first try!
+#94004208 part2 first try! RANK 903 on the leaderboard!!!!
+#googled "factorial but addition" and plugged in the first formula that looked decent ((n^2 + n)/2) and it worked!
