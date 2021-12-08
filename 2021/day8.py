@@ -6,6 +6,8 @@ import time
 #instructions = open("2021/day8tinyinput.txt").read().splitlines()
 #instructions = open("2021/day8testinput.txt").read().splitlines()
 instructions = open("2021/day8input.txt").read().splitlines()
+start = time.time()
+
 
 class SevenSwitch():
   def __init__(self):
@@ -175,9 +177,10 @@ for i in instructions:
   return_number = "" # i know its a str relax.
   for o in output_values:
     return_number += seven.give_number(o)
-  print(return_number)
   total_output += int(return_number)
-  
+
+end = time.time()
+print(end - start)
 print(total_output)
 
 #416 part1 first try
