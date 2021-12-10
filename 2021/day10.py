@@ -8,7 +8,7 @@ instructions = open("2021/day10input.txt").read().splitlines()
 
 front_to_back = {"(": ")", "{": "}", "[": "]", "<": ">"}
 back_to_front = {v:k for k,v in front_to_back.items()}
-points_lookup = {")":3, "]":57, "}":1197, ">":25137}
+points_lookup = {")":1, "]":2, "}":3, ">":4}
 
 class Stack():
   def __init__(self):
@@ -49,16 +49,20 @@ def go_inside(chunk):
     bracket_stack.get() #remove the starting char
     return go_inside(chunk[1:]) #continue down the chunk
     
-point_total = 0
-corrupted_chunks = []
-
+points_list = []
 for i in instructions:
   bracket_stack = Stack()
+  point_total = 0
   result = go_inside(i)
-  if result != True:
-    point_total += points_lookup[result]
-    corrupted_chunks.append(i)
-  
+  if result == True:
+    while bracket_stack.length() != 0:
+      bracket_to_finish = bracket_stack.get()
+      finisher = front_to_back[bracket_to_finish]
+      point_total *= 5
+      point_total += points_lookup[finisher]
+    points_list.append(point_total)
 
-print(point_total)
+points_list.sort()
+print(points_list[len(points_list) // 2])
 #271245 part1 first try! had to impliment my own stack that let me peek at the top number without returning it, but it works!
+#1685293086 part2 first try! a lot faster than previous days. feeling good.
