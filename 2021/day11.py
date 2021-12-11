@@ -51,11 +51,16 @@ def step_three(grid, flashed_list):
     grid[row_index][point_index] = 0
 
 flashed_count = 0
-for i in range(100):
+for i in range(300):
   step_one(grid)
   flashed_list = step_two(grid)
   step_three(grid, flashed_list)
   flashed_count += len(flashed_list)
+
+  if len(flashed_list) == len(grid) * len(grid[0]):
+    print(i + 1)
+
 print(flashed_count)
 
 #1721 part1 first try! even got to reuse some diagonal neighbor code from a year ago
+#step 298 first try! didn't even have to change my code, just a quick new conditional and we all good
