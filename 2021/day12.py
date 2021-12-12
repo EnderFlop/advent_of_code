@@ -32,6 +32,8 @@ class Graph:
       self.path = []
 
       self.path_count = 0
+
+      self.small_cave_visited = False
   
     # function to add an edge to graph
     def addEdge(self, u, v):
@@ -62,12 +64,22 @@ class Graph:
         for i in self.graph[start.name]:
           i = nodes[i.name]
           # small nodes can only be visited once, big nodes can be visited however often
-          if (i.times_visited == 0 and i.big == False):
+          if (i.name == "start"):
+            continue
+          if (i.name == "end" and i.times_visited == 0):
+            self.dfs(i, end)
+          elif (i.times_visited == 0 and i.big == False):
+            self.dfs(i, end)
+          elif (i.times_visited == 1 and i.big == False and self.small_cave_visited == False):
+            self.small_cave_visited = True
             self.dfs(i, end)
           elif (i.big == True):
             self.dfs(i, end)
       self.path.pop()
+      if current_node.times_visited == 2 and current_node.big == False: #if we just removed the small cave 
+        self.small_cave_visited = False
       current_node.times_visited -= 1
+
 
 graph = Graph(len(instructions))
 nodes = {}
@@ -84,3 +96,7 @@ for i in instructions:
 
 graph.dfs(nodes["start"], nodes["end"])
 print(graph.path_count)
+#3856 first try! uses a HEAVILY modified version of the "print all paths" code found here https://www.geeksforgeeks.org/find-paths-given-source-destination/
+#116692 first try! had a rough time figuring out how to mark when I had already visited a small cave and when I hadn't 
+# i accidentally marked small_cave_visited False when times_visited was 2, even if it was a big cave >:( 
+# but I got it in the end!
