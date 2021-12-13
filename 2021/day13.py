@@ -52,7 +52,9 @@ for fold in folds:
   for row_index, row in enumerate(grid_two):
     for point_index, point in enumerate(row):
       if point == "#":
-        grid_one[row_index][point_index] = "#"
+        x_offset = len(grid_one) - len(grid_two)
+        y_offset = len(grid_one[0]) - len(grid_two[0])
+        grid_one[row_index + x_offset][point_index + y_offset] = "#"
   grid = grid_one
 
 for row_index, row in enumerate(grid):
@@ -60,9 +62,12 @@ for row_index, row in enumerate(grid):
   for point_index, point in enumerate(row):
     if point == ".":
       row_str += " "
-    if point == "#":
+    elif point == "#":
       row_str += "#"
   print(row_str)
   
 #759 part 1 first try!
 #HOGAZKPR not right, i just tried to guess the blurry letters. something is going wrong
+#HECRZKPR second try! I just implimented a quick fix i found online. 
+#my suspicion that I was folding incorrectly was sort of right, turns out it was more ugly index math I wasn't accounting for.
+#it's rough when it works on the test input but the real input is completely unbugfixable.
