@@ -5,12 +5,36 @@ import time
 import math
 import heapq
 
+start = time.time()
+
 #instructions = open("2021/day15testinput.txt").read().splitlines()
 instructions = open("2021/day15input.txt").read().splitlines()
 
 instructions = [[int(i) for i in x] for x in instructions]
 grid = np.asarray(instructions)
-#bfs the whole grid to get every path. calculate the sum of the risk of all paths. find the minimum
+#take the grid, change every number to num + 1, if num == 10 num = 1, slap it on the left and right
+original_grid = grid.copy()
+
+for i in range(1, 5): #make the grid vertically
+  new_grid = original_grid.copy()
+  for row_index, row in enumerate(new_grid):
+    for point_index, point in enumerate(row):
+      new_grid[row_index][point_index] += i
+      if point + i >= 10:
+        new_grid[row_index][point_index] = ((point + i) % 10) + 1
+  grid = np.concatenate([grid, new_grid], axis=0)
+
+original_grid = grid.copy()
+for i in range(1, 5): #make the grid horizontally
+  new_grid = original_grid.copy()
+  for row_index, row in enumerate(new_grid):
+    for point_index, point in enumerate(row):
+      new_grid[row_index][point_index] += i
+      if point + i >= 10:
+        new_grid[row_index][point_index] = ((point + i) % 10) + 1
+  grid = np.concatenate([grid, new_grid], axis=1)
+
+#grid is now set up correctly.
 
 
 class Node():
@@ -39,6 +63,8 @@ class Graph():
 
       self.path_count = 0
 
+      self.shortest_path = []
+
     # function to add an edge to graph
     def addEdge(self, u, v):
       start_coords = str(u)
@@ -46,33 +72,35 @@ class Graph():
         self.graph[start_coords] = []
       self.graph[start_coords].append(v)
   
-    def shortest(self, start, path):
-      if start.previous:
-        print(start.previous.coords)
-        path.append(start.previous.risk)
-        self.shortest(start.previous, path)
-      return
     
     def dijkstra(self, start, end):
       start.distance = 0
-      unvisted_queue = [node for node in nodes.values()]
+      end_coords = str(end.coords)
+      unvisted_queue = [start]
       heapq.heapify(unvisted_queue)
       while unvisted_queue:
+
         current_node = heapq.heappop(unvisted_queue)
         current_node.visited = True
+        current_node_coords = str(current_node.coords)
+
+        if current_node_coords == end_coords:
+          self.shortest_path.append(current_node.risk)
+          while current_node.previous:
+            self.shortest_path.append(current_node.previous.risk)
+            current_node = current_node.previous
+          return
+
         for next_node in self.graph[str(current_node.coords)]:
+          new_distance = current_node.distance + next_node.risk
           if next_node.visited:
             continue
-          new_distance = current_node.distance + next_node.risk
-          if new_distance < next_node.distance:
+          elif new_distance < next_node.distance:
             #print(next_node.coords)
             next_node.previous = current_node
             next_node.distance = new_distance
-        
-        while unvisted_queue:
-          heapq.heappop(unvisted_queue)
-        unvisted_queue = [node for node in nodes.values() if node.visited == False]
-        heapq.heapify(unvisted_queue)
+            heapq.heappush(unvisted_queue, next_node)
+          
 
 graph = Graph()
 
@@ -98,10 +126,20 @@ for row_index, row in enumerate(grid): #once to find all the neighbors and add t
     find_neighbors(grid, row_index, point_index)
 
 
-graph.dijkstra(nodes[str([0,0])], nodes[str([99,99])])
-target = nodes[str([99,99])]
-path = [target.risk]
-graph.shortest(target, path)
-print(sum(path) - nodes[str([0,0])].risk)
+graph.dijkstra(nodes[str([0,0])], nodes[str([499,499])])
+target = nodes[str([499,499])]
+
+#graph.dijkstra(nodes[str([0,0])], nodes[str([49,49])])
+#target = nodes[str([49,49])]
+
+print("\n")
+print(sum(graph.shortest_path) - nodes[str([0,0])].risk)
 #540 first try! amazed that this worked. I used a model of dijkstras algorithm but changed so much to fit my own variables i'm ecstatic that it pulled through.
 #takes around thirty seconds to run though, i'm sure there's a faster way of going about it but this functions for now. I hope part 2 doesn't ask anything crazy.
+
+#progress! I've expanded the grid correctly and it workes on the new sample input. my implimentation of dijkstra's is far too slow to be run in any decent amount of time
+#I am going to bed, but I will run the algorithm while I sleep and hope for a result in the morning :)
+end = time.time()
+print(end - start)
+#2879! just had to optimize the algorithm a little bit. turns out the first one I found was pretty terrible.
+#this source helped me out a ton https://codereview.stackexchange.com/questions/235898/speeding-up-dijkstras-algorithm
