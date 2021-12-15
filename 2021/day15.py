@@ -2,9 +2,11 @@ import re
 import itertools
 import numpy as np
 import time
+import math
+import heapq
 
-instructions = open("2021/day15testinput.txt").read().splitlines()
-#instructions = open("2021/day15input.txt").read().splitlines()
+#instructions = open("2021/day15testinput.txt").read().splitlines()
+instructions = open("2021/day15input.txt").read().splitlines()
 
 instructions = [[int(i) for i in x] for x in instructions]
 grid = np.asarray(instructions)
@@ -13,12 +15,20 @@ grid = np.asarray(instructions)
 
 class Node():
   def __init__(self, risk, coords):
+    self.distance = math.inf
     self.risk = risk
     self.coords = coords
-    self.times_visited = 0
+    self.visited = False
+    self.previous = None
 
   def __repr__(self):
-    return f"{self.risk} {self.coords}"
+    return f"{self.risk} {self.coords}. D:{self.distance}"
+  
+  def __lt__(self, other):
+    return self.distance < other.distance
+  
+  def __gt__(self, other):
+    return self.distance > other.distance
 
 class Graph():
     def __init__(self):
@@ -36,35 +46,38 @@ class Graph():
         self.graph[start_coords] = []
       self.graph[start_coords].append(v)
   
-    def dfs(self, start, end):
-      start_coords = str(start.coords)
-      current_node = nodes[start_coords]
-
-      # Mark the current node as visited and store in path
-      current_node.times_visited += 1
-      self.path.append(current_node)
-
-      # If current vertex is same as destination, then print
-      # current path[]
-      if start.coords == end.coords:
-        #print(self.path)
-        all_paths.append(self.path)
-      else:
-        # If current vertex is not destination
-        # Recur for all the vertices adjacent to this vertex
-        for i in self.graph[start_coords]:
-          i = nodes[str(i.coords)]
-          if (i.times_visited == 0):
-            self.dfs(i, end)
-      self.path.pop()
-      current_node.times_visited -= 1
-      if len(all_paths) % 100000 == 0:
-        print(len(all_paths))
+    def shortest(self, start, path):
+      if start.previous:
+        print(start.previous.coords)
+        path.append(start.previous.risk)
+        self.shortest(start.previous, path)
+      return
+    
+    def dijkstra(self, start, end):
+      start.distance = 0
+      unvisted_queue = [node for node in nodes.values()]
+      heapq.heapify(unvisted_queue)
+      while unvisted_queue:
+        current_node = heapq.heappop(unvisted_queue)
+        current_node.visited = True
+        for next_node in self.graph[str(current_node.coords)]:
+          if next_node.visited:
+            continue
+          new_distance = current_node.distance + next_node.risk
+          if new_distance < next_node.distance:
+            #print(next_node.coords)
+            next_node.previous = current_node
+            next_node.distance = new_distance
+        
+        while unvisted_queue:
+          heapq.heappop(unvisted_queue)
+        unvisted_queue = [node for node in nodes.values() if node.visited == False]
+        heapq.heapify(unvisted_queue)
 
 graph = Graph()
 
 def find_neighbors(grid, row_index, point_index): #shamelessly stolen from MYSELF HAHA (day11 2020)
-  slopes = [(-1, -1), (0,-1), (1,-1), (-1,0), (1,0), (-1,1), (0,1), (1,1)] #The slopes to check
+  slopes = [(0,-1), (-1,0), (1,0), (0,1),] #The slopes to check
   for slope in slopes:
     current_pos = [row_index, point_index]
     current_pos[0] += slope[0] #Move by x of slope
@@ -84,5 +97,11 @@ for row_index, row in enumerate(grid): #once to find all the neighbors and add t
   for point_index, point in enumerate(row):
     find_neighbors(grid, row_index, point_index)
 
-all_paths = []
-graph.dfs(nodes[str([0,0])], nodes[str([9,9])])
+
+graph.dijkstra(nodes[str([0,0])], nodes[str([99,99])])
+target = nodes[str([99,99])]
+path = [target.risk]
+graph.shortest(target, path)
+print(sum(path) - nodes[str([0,0])].risk)
+#540 first try! amazed that this worked. I used a model of dijkstras algorithm but changed so much to fit my own variables i'm ecstatic that it pulled through.
+#takes around thirty seconds to run though, i'm sure there's a faster way of going about it but this functions for now. I hope part 2 doesn't ask anything crazy.
