@@ -11,8 +11,10 @@ for pair in instructions:
   elf1, elf2 = pair.split(",")
   ass1, ass2 = int(elf1.split("-")[0]), int(elf1.split("-")[1])
   ass3, ass4 = int(elf2.split("-")[0]), int(elf2.split("-")[1])
-  if (ass1 <= ass3 and ass2 >= ass4) or (ass3 <= ass1 and ass4 >= ass2):
+  if ass3 in range(ass1, ass2 + 1) or ass4 in range(ass1, ass2 + 1) or ass1 in range(ass3, ass4 + 1) or ass2 in range(ass3, ass4 + 1):
+    #print(f"{ass1}-{ass2}|{ass3}-{ass4}")
     full_overlaps += 1
 
 print(full_overlaps)
 #part1 490 first try!
+#part2 921 first try!
