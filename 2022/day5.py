@@ -34,12 +34,12 @@ def interpret_move(move):
   return [int(x) for x in re.findall("\d+", move)]
 
 for move in moves:
-  block_count, stack_index1, stack_index2 = interpret_move(move)
-  for i in range(block_count):
-    block_val = all_stacks[stack_index1 - 1][0]
-    all_stacks[stack_index1 - 1] = all_stacks[stack_index1 - 1][1:]
-    all_stacks[stack_index2 - 1] = [block_val] + all_stacks[stack_index2 - 1]
-    #i tried throwing these into stack1 and stack2 variables but it wasn't updating the originals. i would make a box and arrow diagram but this works for now.
+  block_count, si1, si2 = interpret_move(move)
+  blocks = all_stacks[si1 - 1][0: block_count]
+  all_stacks[si1 - 1] = all_stacks[si1 - 1][block_count:]
+  all_stacks[si2 - 1] = blocks + all_stacks[si2 - 1]
+  #still ugly and unreadable but i went another day without drawing memory diagrams and box n arrow graphs, so it's worth it.
 
 print("".join([stack[0] for stack in all_stacks]))
 #part1 ZSQVCCJLL first try!
+#part2 QZFJRWHGS first try!
