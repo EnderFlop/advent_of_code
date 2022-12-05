@@ -1,7 +1,7 @@
 import requests
 import os
 
-YEAR = "2021"
+YEAR = "2022"
 
 try:
   os.chdir(os.getcwd() + f"\{YEAR}")
