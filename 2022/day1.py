@@ -15,7 +15,13 @@ for elf in elves:
     local_total += int(food)
   food_elves.append(local_total)
 
-maximum = max(food_elves)
-print(maximum, food_elves.index(maximum) + 1)
+top_three = 0
+for i in range(3):
+  maximum = max(food_elves)
+  top_three += maximum
+  food_elves.remove(maximum)
+print(top_three)
 
 #part1: 70369 first try!
+#part2: 11546469 too high. didnt even read problem lol
+#       203002 second try! easy once i realized what the goal was.
