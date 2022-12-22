@@ -45,7 +45,7 @@ def build_filesystem(current_directory):
     
     #print(current_directory.name, current_directory.files, current_directory.subdirectories)
 
-sizes = 0
+sizes = []
 
 def iterate_filesystem(current_dir):
   global sizes
@@ -54,8 +54,7 @@ def iterate_filesystem(current_dir):
     size += iterate_filesystem(sub_dir)
   print(current_dir.name, size)
 
-  if size <= 100000:
-    sizes += size
+  sizes.append(size)
   
   return size
 
@@ -63,6 +62,11 @@ parent_dir = Directory("/")
 build_filesystem(parent_dir)
 iterate_filesystem(parent_dir)
 
-print(sizes)
+all_files_size = max(sizes) #size of "/" dir, all files
+space_remaining = 70000000 - all_files_size #constant 70 million disk space
+space_needed = 30000000 - space_remaining
+new_sizes = [s for s in sizes if s >= space_needed]
+print(min(new_sizes))
 
 #part1 46952861 too high, 1908462 second try. accidentally stuck an extra 0 in the size test, whoops
+#part2 3979145 first try!
