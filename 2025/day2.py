@@ -3,39 +3,41 @@ import itertools
 import numpy as np
 import time
 
-instructions = open("2025/day2testinput.txt").read().split(",")
-#instructions = open("2025/day2input.txt").read().split(",")
+#instructions = open("2025/day2testinput.txt").read().split(",")
+instructions = open("2025/day2input.txt").read().split(",")
 
 total = 0
 
 for pair in instructions:
   print("i: ", pair)
   first, second = pair.split("-")
+  found = set()
   tmp_total = 0
 
-  index = 1
-  while index <= len(first) // 2:
-    #if len of segment doesn't fit into our number evenly, skip
-    if len(first) % index != 0:
-      index += 1
-      continue
+  print(pair)
+  for i in range(1, int(second[:len(second)//2 + 1])):
+    if len(first) % len(str(i)) == 0:
+      times_to_repeat = len(first) // len(str(i))
+      repeated = str(i) * times_to_repeat
+      if times_to_repeat > 1 and int(first) <= int(repeated) <= int(second) and repeated not in found:
+        tmp_total += int(repeated)
+        print(repeated)
 
-    #get segment we will repeat
-    repeat = first[:index]
-    num_times_to_repeat = len(first) // index
-    repeated = repeat * num_times_to_repeat
+        found.add(repeated)
+
+    #patch, just do again
+    if len(first) != len(second) and len(second) % len(str(i)) == 0:
+      times_to_repeat = len(second) // len(str(i))
+      repeated = str(i) * times_to_repeat
+      if times_to_repeat > 1 and int(first) <= int(repeated) <= int(second) and repeated not in found:
+        tmp_total += int(repeated)
+        found.add(repeated)
     
-    while int(first) <= int(repeated) <= int(second):
-      tmp_total += int(repeated)
-
-      repeat = str(int(repeat) + 1)
-
-      num_times_to_repeat = max(len(first), len(second)) // len(repeat)
-      repeated = repeat * num_times_to_repeat
+  total += tmp_total
     
-    print(tmp_total)
-
-
-    index += 1
+print(total)
 
 # 31000881061 correct day 1
+
+# 46769308485 correct day 2
+# brute force ftw
